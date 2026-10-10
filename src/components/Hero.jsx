@@ -1,188 +1,339 @@
 import React, { useState } from 'react';
-import { Shield, Code, Cpu, MapPin, Terminal, Activity, ArrowRight, Zap, Lock } from 'lucide-react';
+import { Play, Info, Mail, Shield, Terminal, Activity, Lock, Code2, Cpu } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from './BrandIcons';
+import { personalInfo } from '../data/portfolioData';
+import { sound } from '../utils/soundEffects';
 
-export default function Hero() {
+export default function Hero({ activeProfile }) {
   const [pulseActive, setPulseActive] = useState(false);
+  const [terminalTab, setTerminalTab] = useState('defense'); // 'defense' | 'code' | 'specs'
 
   const triggerDiagnostic = () => {
+    sound.playHover();
     setPulseActive(true);
-    setTimeout(() => setPulseActive(false), 2000);
+    setTimeout(() => {
+      sound.playSuccess();
+      setPulseActive(false);
+    }, 1800);
   };
 
   return (
-    <section id="home" className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden cyber-grid-pattern">
-      {/* Glow Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <section
+      id="home"
+      className="relative min-h-[92vh] pt-32 pb-20 md:pt-44 md:pb-28 flex items-center overflow-hidden cyber-grid-pattern netflix-gradient-bg"
+    >
+      {/* Ambient Red & Blue Atmospheric Light Glows */}
+      <div className="absolute top-1/4 left-10 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-ambient-glow" />
+      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Headline & Bio */}
-          <div className="lg:col-span-7 space-y-8">
-            
-            {/* Small Label */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 font-mono text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(0,240,255,0.1)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00f0ff] animate-ping"></span>
-              <Terminal className="w-3.5 h-3.5" />
-              <span>INFORMATION TECHNOLOGY / SOFTWARE + SECURITY</span>
+
+          {/* Left Column: Billboard Headlines & CTA */}
+          <div className="lg:col-span-7 space-y-7">
+
+            {/* Small Label / Top 10 Badge */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/50 border border-red-500/40 text-red-400 font-mono text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(229,9,20,0.2)]">
+                <span className="w-4 h-4 rounded bg-[#E50914] text-white flex items-center justify-center font-black text-[10px] leading-none shadow-sm">
+                  N
+                </span>
+                <span>{personalInfo.badge}</span>
+              </div>
+
+              <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 font-mono text-xs">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>ACTIVE FOCUS: {activeProfile?.name?.toUpperCase() || 'CYBER ANALYST'}</span>
+              </div>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-syne font-extrabold text-white tracking-tight leading-[1.08]">
-              I <span className="text-gradient-cyan drop-shadow-[0_0_20px_rgba(0,240,255,0.4)]">BUILD</span> SOFTWARE. <br />
-              I <span className="text-gradient-blue drop-shadow-[0_0_20px_rgba(0,102,255,0.4)]">SECURE</span> SYSTEMS.
-            </h1>
+            {/* Large Heading: NITHISH K */}
+            <div className="space-y-2">
+              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-syne font-black text-white tracking-tight leading-[1.02]">
+                {personalInfo.name}
+              </h1>
 
-            {/* Subtitle Bio */}
-            <p className="text-slate-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl">
-              I’m <span className="text-white font-semibold underline decoration-cyan-400/40 underline-offset-4">Nithish K</span>, an Information Technology student and aspiring Full-Stack Developer & Cybersecurity Analyst focused on building reliable, secure and practical technology solutions.
+              {/* Subtitle */}
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-syne font-semibold text-gradient-red">
+                {personalInfo.title}
+              </h2>
+            </div>
+
+            {/* Short Introduction */}
+            <p className="text-slate-300 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-2xl">
+              An Information Technology student at <strong className="text-white font-semibold">Annamalai University</strong> with a deep passion for <span className="text-white underline decoration-red-500/50 underline-offset-4">cybersecurity operations</span>, defensive systems, Python programming, and building secure, resilient full-stack web applications.
             </p>
 
-            {/* Action Buttons */}
+            {/* Action Buttons: Netflix Play style & Info buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs tracking-wider">
+              
+              {/* Explore My Work (Play Button) */}
               <a
                 href="#projects"
-                className="px-7 py-4 rounded-md bg-[#00f0ff] text-black font-bold hover:bg-cyan-300 transition-all shadow-[0_0_25px_rgba(0,240,255,0.4)] hover:shadow-[0_0_35px_rgba(0,240,255,0.6)] flex items-center gap-2 group"
+                onClick={() => sound.playHover()}
+                className="px-8 py-4 rounded-md bg-white text-black font-extrabold hover:bg-slate-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-105 flex items-center gap-2.5 group"
               >
+                <Play className="w-4 h-4 fill-black text-black" />
                 <span>EXPLORE MY WORK</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
 
+              {/* View Skills (Info Button) */}
               <a
-                href="#security"
-                className="px-7 py-4 rounded-md bg-[#0c1017] text-cyan-400 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-500/10 transition-all flex items-center gap-2"
+                href="#skills"
+                onClick={() => sound.playHover()}
+                className="px-7 py-4 rounded-md bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all flex items-center gap-2.5"
               >
-                <Shield className="w-4 h-4 text-[#00f0ff]" />
-                <span>VIEW SECURITY WORK</span>
+                <Info className="w-4 h-4 text-red-500" />
+                <span>VIEW SKILLS</span>
               </a>
+
+              {/* Contact Me (Red Outline Button) */}
+              <a
+                href="#contact"
+                onClick={() => sound.playHover()}
+                className="px-7 py-4 rounded-md bg-red-950/30 text-red-400 border border-red-500/40 hover:bg-red-900/40 hover:border-red-400 transition-all flex items-center gap-2"
+              >
+                <Mail className="w-4 h-4" />
+                <span>CONTACT ME</span>
+              </a>
+
             </div>
 
-            {/* Brand Pillars */}
-            <div className="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 font-mono text-xs">
-              <div className="space-y-1">
-                <span className="text-slate-500 block">01 / DEV</span>
-                <span className="text-slate-200 font-semibold flex items-center gap-1.5">
-                  <Code className="w-3.5 h-3.5 text-[#00f0ff]" /> Full-Stack
-                </span>
+            {/* Social Links & Location Badge */}
+            <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+              <div className="flex items-center gap-3">
+                <span className="text-slate-500">CONNECT:</span>
+                
+                {/* GitHub */}
+                <a
+                  href={personalInfo.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playHover()}
+                  className="p-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-red-500 hover:text-white text-slate-300 transition-colors flex items-center gap-2"
+                  title="GitHub Profile"
+                >
+                  <GithubIcon className="w-4 h-4" />
+                  <span className="text-[11px]">GitHub</span>
+                </a>
+
+                {/* LinkedIn */}
+                <a
+                  href={personalInfo.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => sound.playHover()}
+                  className="p-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-blue-500 hover:text-white text-slate-300 transition-colors flex items-center gap-2"
+                  title="LinkedIn Profile"
+                >
+                  <LinkedinIcon className="w-4 h-4 text-blue-400" />
+                  <span className="text-[11px]">LinkedIn</span>
+                </a>
               </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 block">02 / DEFENSE</span>
-                <span className="text-slate-200 font-semibold flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-blue-400" /> Cyber Ops
-                </span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 block">03 / TECH</span>
-                <span className="text-slate-200 font-semibold flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-violet-400" /> AI & Data
-                </span>
+
+              <div className="text-slate-400 text-[11px]">
+                <span>BASE: </span>
+                <span className="text-white font-medium">{personalInfo.location}</span>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column: Digital Security Identity Visualization */}
+          {/* Right Column: High-tech Cybersecurity Identity & Telemetry Card */}
           <div className="lg:col-span-5 relative">
             
-            {/* HUD Container */}
-            <div className="hud-box cyber-card rounded-xl p-6 sm:p-8 space-y-6 relative overflow-hidden border border-cyan-500/30">
+            {/* Red Rim Glow Overlay */}
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-red-600/30 via-red-900/10 to-blue-600/20 blur-xl opacity-70 pointer-events-none" />
+
+            {/* Terminal HUD Container */}
+            <div className="relative netflix-card rounded-2xl p-6 sm:p-8 space-y-6 border border-red-500/30 shadow-2xl overflow-hidden red-rim-glow">
               
-              {/* Scanline element */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none animate-scanline"></div>
+              {/* Scanline Effect */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/5 to-transparent pointer-events-none animate-scanline" />
 
               {/* Identity Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-400/50 flex items-center justify-center text-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600/30 via-black to-red-950 border border-red-500/60 flex items-center justify-center text-[#E50914] shadow-[0_0_20px_rgba(229,9,20,0.4)]">
                       <Shield className="w-6 h-6" />
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#07090e] animate-pulse"></div>
+                    <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-black animate-pulse" />
                   </div>
                   <div>
-                    <h3 className="font-syne text-xl font-bold text-white tracking-wide">NITHISH K</h3>
-                    <p className="font-mono text-xs text-cyan-400">ID // NK-2026-SEC</p>
+                    <h3 className="font-syne text-xl font-bold text-white tracking-wide">
+                      {personalInfo.name}
+                    </h3>
+                    <p className="font-mono text-xs text-red-400">ID // NK-2026-CYBER</p>
                   </div>
                 </div>
 
                 <div className="text-right font-mono text-xs">
                   <span className="text-slate-500 block">SYSTEM STATUS</span>
                   <span className="text-emerald-400 font-semibold flex items-center justify-end gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> ONLINE
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> ONLINE
                   </span>
                 </div>
               </div>
 
-              {/* Technical Telemetry */}
-              <div className="space-y-4 font-mono text-xs">
-                
-                <div className="p-3 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-400 flex items-center gap-2">
-                    <Cpu className="w-4 h-4 text-cyan-400" /> FOCUS
-                  </span>
-                  <span className="text-slate-200 font-medium">SOFTWARE / SECURITY / AI</span>
-                </div>
-
-                <div className="p-3 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-400 flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-cyan-400" /> LOCATION
-                  </span>
-                  <span className="text-slate-200 font-medium">TAMIL NADU, INDIA</span>
-                </div>
-
-                <div className="p-3 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
-                  <span className="text-slate-400 flex items-center gap-2">
-                    <Terminal className="w-4 h-4 text-cyan-400" /> ACADEMIC BASE
-                  </span>
-                  <span className="text-slate-200 font-medium">B.E. IT @ ANNAMALAI UNIV</span>
-                </div>
-
+              {/* Telemetry Tabs */}
+              <div className="flex rounded-lg bg-black/50 p-1 border border-white/10 font-mono text-xs">
+                <button
+                  onClick={() => {
+                    sound.playHover();
+                    setTerminalTab('defense');
+                  }}
+                  className={`flex-1 py-1.5 rounded text-center transition-all ${
+                    terminalTab === 'defense'
+                      ? 'bg-red-600 text-white font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  DEFENSE
+                </button>
+                <button
+                  onClick={() => {
+                    sound.playHover();
+                    setTerminalTab('code');
+                  }}
+                  className={`flex-1 py-1.5 rounded text-center transition-all ${
+                    terminalTab === 'code'
+                      ? 'bg-red-600 text-white font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  CODE BASE
+                </button>
+                <button
+                  onClick={() => {
+                    sound.playHover();
+                    setTerminalTab('specs');
+                  }}
+                  className={`flex-1 py-1.5 rounded text-center transition-all ${
+                    terminalTab === 'specs'
+                      ? 'bg-red-600 text-white font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  ACADEMIC
+                </button>
               </div>
 
-              {/* Animated Radar & Meter Visual */}
-              <div className="pt-4 border-t border-slate-800 space-y-3">
-                <div className="flex items-center justify-between font-mono text-xs">
+              {/* Tab Content Display */}
+              <div className="space-y-3 font-mono text-xs">
+                {terminalTab === 'defense' && (
+                  <div className="space-y-2.5">
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400 flex items-center gap-2">
+                        <Lock className="w-3.5 h-3.5 text-red-500" /> THREAT DETECTION
+                      </span>
+                      <span className="text-emerald-400 font-medium">ACTIVE SCANNER</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400 flex items-center gap-2">
+                        <Activity className="w-3.5 h-3.5 text-blue-400" /> LOG ANALYSIS
+                      </span>
+                      <span className="text-slate-200">PARSED & FILTERED</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400 flex items-center gap-2">
+                        <Shield className="w-3.5 h-3.5 text-red-400" /> ETHICS PROTOCOL
+                      </span>
+                      <span className="text-slate-200">DEFENSIVE ENGINEERING</span>
+                    </div>
+                  </div>
+                )}
+
+                {terminalTab === 'code' && (
+                  <div className="space-y-2.5">
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400 flex items-center gap-2">
+                        <Terminal className="w-3.5 h-3.5 text-amber-400" /> PYTHON CORE
+                      </span>
+                      <span className="text-amber-300 font-semibold">3.11+ / DJANGO REST</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400 flex items-center gap-2">
+                        <Code2 className="w-3.5 h-3.5 text-cyan-400" /> FRONTEND TECH
+                      </span>
+                      <span className="text-cyan-300">REACT 19 / TAILWIND</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400 flex items-center gap-2">
+                        <Cpu className="w-3.5 h-3.5 text-purple-400" /> DATA PERSISTENCE
+                      </span>
+                      <span className="text-slate-200">POSTGRESQL / SQL</span>
+                    </div>
+                  </div>
+                )}
+
+                {terminalTab === 'specs' && (
+                  <div className="space-y-2.5">
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400">DEGREE</span>
+                      <span className="text-white font-semibold">B.E. INFORMATION TECH</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400">INSTITUTION</span>
+                      <span className="text-slate-200">ANNAMALAI UNIVERSITY</span>
+                    </div>
+                    <div className="p-3 rounded-lg bg-black/60 border border-white/10 flex items-center justify-between">
+                      <span className="text-slate-400">HORIZON</span>
+                      <span className="text-red-400 font-bold">CLASS OF 2028</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Diagnostic Button & Telemetry Progress */}
+              <div className="pt-4 border-t border-white/10 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between">
                   <span className="text-slate-400 flex items-center gap-1.5">
-                    <Activity className={`w-4 h-4 ${pulseActive ? 'text-emerald-400 animate-spin' : 'text-cyan-400'}`} />
+                    <Activity className={`w-3.5 h-3.5 ${pulseActive ? 'text-red-500 animate-spin' : 'text-slate-400'}`} />
                     SYSTEM TELEMETRY
                   </span>
                   <button
                     onClick={triggerDiagnostic}
-                    className="text-[11px] text-cyan-400 hover:text-cyan-300 underline underline-offset-2"
+                    className="text-red-400 hover:text-red-300 underline underline-offset-2 transition-colors"
                   >
-                    {pulseActive ? 'DIAGNOSTICS RUNNING...' : 'RUN DIAGNOSTIC'}
+                    {pulseActive ? 'TESTING INTEGRITY...' : 'RUN DIAGNOSTIC'}
                   </button>
                 </div>
 
-                {/* Progress Indicators */}
-                <div className="space-y-2 font-mono text-[11px]">
+                <div className="space-y-2 text-[11px]">
                   <div>
                     <div className="flex justify-between text-slate-400 mb-1">
                       <span>SECURE CODE INTEGRITY</span>
-                      <span className="text-cyan-400">99.8%</span>
+                      <span className="text-red-400">99.8%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <div className={`h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-700 ${pulseActive ? 'w-full' : 'w-[99.8%]'}`}></div>
+                    <div className="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full bg-gradient-to-r from-red-600 to-rose-400 rounded-full transition-all duration-700 ${
+                          pulseActive ? 'w-full' : 'w-[99.8%]'
+                        }`}
+                      />
                     </div>
                   </div>
 
                   <div>
                     <div className="flex justify-between text-slate-400 mb-1">
-                      <span>LOG ANALYSIS EFFICIENCY</span>
-                      <span className="text-cyan-400">96.4%</span>
+                      <span>DEFENSIVE LOG COVERAGE</span>
+                      <span className="text-blue-400">97.4%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <div className={`h-full bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full transition-all duration-700 ${pulseActive ? 'w-full' : 'w-[96.4%]'}`}></div>
+                    <div className="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full transition-all duration-700 ${
+                          pulseActive ? 'w-full' : 'w-[97.4%]'
+                        }`}
+                      />
                     </div>
                   </div>
                 </div>
-
               </div>
 
-              {/* Bottom Security Disclaimers */}
-              <div className="pt-2 text-[10px] font-mono text-slate-500 text-center uppercase tracking-widest border-t border-slate-900">
-                [ SECURE SYSTEM INTERFACE • VERIFIED CREATIVE PORTFOLIO ]
+              {/* Bottom Card Footer */}
+              <div className="pt-2 text-[10px] font-mono text-slate-500 text-center uppercase tracking-widest border-t border-white/5">
+                [ SECURE SYSTEM INTERFACE • NETFLIX CINEMATIC PORTFOLIO ]
               </div>
 
             </div>

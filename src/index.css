@@ -1,90 +1,103 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-syne: 'Syne', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-syne: 'Syne', 'Montserrat', sans-serif;
 
-  --color-bg-dark: #07090e;
-  --color-card-dark: #0c1017;
-  --color-[#00f0ff]: #00f0ff;
-  --color-[#0066ff]: #0066ff;
-  --color-[#8b5cf6]: #8b5cf6;
+  --color-netflix-red: #E50914;
+  --color-netflix-red-hover: #b80710;
+  --color-netflix-dark: #141414;
+  --color-netflix-black: #08090d;
+  --color-cyber-blue: #0070F3;
+  --color-cyber-cyan: #00F0FF;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #07090e;
+    background-color: #08090d;
     color: #e2e8f0;
   }
 
   body {
-    background-color: #07090e;
+    background-color: #08090d;
     color: #e2e8f0;
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
     overflow-x: hidden;
   }
 
-  /* Custom Scrollbar */
+  /* Custom Cinematic Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
+
   ::-webkit-scrollbar-track {
-    background: #07090e;
+    background: #08090d;
   }
+
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 3px;
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    background: #262a33;
+    border-radius: 4px;
+    border: 1px solid rgba(229, 9, 20, 0.2);
   }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #00f0ff;
+    background: #E50914;
   }
 }
 
 /* Typography Helpers */
 .font-mono {
-  font-family: 'JetBrains Mono', monospace !important;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
 }
 
 .font-syne {
-  font-family: 'Syne', sans-serif !important;
+  font-family: 'Syne', 'Montserrat', sans-serif !important;
 }
 
-/* Cyber Technical Aesthetics */
+/* Netflix & Cyber Ambient Background Patterns */
+.netflix-gradient-bg {
+  background: radial-gradient(circle at 50% 10%, rgba(229, 9, 20, 0.08) 0%, transparent 60%),
+              radial-gradient(circle at 90% 80%, rgba(0, 112, 243, 0.05) 0%, transparent 50%),
+              #08090d;
+}
+
 .cyber-grid-pattern {
-  background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .cyber-dots-pattern {
-  background-image: radial-gradient(rgba(0, 240, 255, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(229, 9, 20, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-.cyber-card {
-  background: rgba(12, 16, 23, 0.85);
+/* Glassmorphism Netflix Card */
+.netflix-card {
+  background: rgba(18, 20, 26, 0.75);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cyber-card:hover {
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 30px -5px rgba(0, 240, 255, 0.2), inset 0 0 15px -5px rgba(0, 240, 255, 0.08);
-  transform: translateY(-2px);
-}
-
-.cyber-card-blue:hover {
-  border-color: rgba(0, 102, 255, 0.5);
-  box-shadow: 0 0 30px -5px rgba(0, 102, 255, 0.25);
+.netflix-card:hover {
+  border-color: rgba(229, 9, 20, 0.4);
+  box-shadow: 0 10px 35px -10px rgba(229, 9, 20, 0.3), inset 0 0 20px -5px rgba(229, 9, 20, 0.06);
+  transform: translateY(-4px);
 }
 
 /* Glowing text gradients */
+.text-gradient-red {
+  background: linear-gradient(135deg, #ffffff 0%, #ff4d58 50%, #E50914 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .text-gradient-cyan {
   background: linear-gradient(135deg, #ffffff 0%, #00f0ff 100%);
   -webkit-background-clip: text;
@@ -97,67 +110,70 @@
   -webkit-text-fill-color: transparent;
 }
 
-.text-gradient-violet {
-  background: linear-gradient(135deg, #ffffff 0%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Netflix Stylized Giant Ranking Numbers */
+.netflix-rank-number {
+  font-family: 'Syne', sans-serif;
+  font-weight: 900;
+  line-height: 0.8;
+  color: #08090d;
+  -webkit-text-stroke: 4px #595959;
+  text-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
+  user-select: none;
+  transition: all 0.3s ease;
 }
 
-/* HUD Corner Brackets */
-.hud-box {
-  position: relative;
-}
-.hud-box::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 10px;
-  height: 10px;
-  border-top: 2px solid #00f0ff;
-  border-left: 2px solid #00f0ff;
-  pointer-events: none;
-  z-index: 10;
-}
-.hud-box::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  right: -1px;
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid #00f0ff;
-  border-right: 2px solid #00f0ff;
-  pointer-events: none;
-  z-index: 10;
+.group:hover .netflix-rank-number {
+  -webkit-text-stroke: 4px #E50914;
+  color: #141414;
+  filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.6));
 }
 
-/* Animated Scanline Overlay */
+/* Red Rim Light Accent */
+.red-rim-glow {
+  box-shadow: 0 0 50px -10px rgba(229, 9, 20, 0.25);
+}
+
+/* Horizontal Scrollbar Hide */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animated Scanline */
 @keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(1200%);
-  }
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
 }
 
 .animate-scanline {
-  animation: scanline 7s linear infinite;
+  animation: scanline 8s linear infinite;
 }
 
-/* Pulse Glow */
-@keyframes pulse-glow {
+/* Ambient Pulse Glow */
+@keyframes ambient-glow {
   0%, 100% {
-    opacity: 0.4;
-    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.4));
+    opacity: 0.3;
+    transform: scale(1);
   }
   50% {
-    opacity: 1;
-    filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.8));
+    opacity: 0.6;
+    transform: scale(1.05);
   }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 3s infinite ease-in-out;
+.animate-ambient-glow {
+  animation: ambient-glow 6s ease-in-out infinite;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -19,18 +19,19 @@ export default function CanvasBackground() {
 
     window.addEventListener('resize', handleResize);
 
-    // Particle nodes
-    const particleCount = Math.min(Math.floor(width / 25), 45);
+    // Particle nodes with Netflix Red & Blue cyber highlights
+    const particleCount = Math.min(Math.floor(width / 30), 40);
     const particles = [];
+    const colors = ['#E50914', '#ff3844', '#0070F3', '#ffffff'];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 2 + 1,
-        color: Math.random() > 0.3 ? '#00f0ff' : '#0066ff'
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        size: Math.random() * 1.8 + 0.8,
+        color: colors[Math.floor(Math.random() * colors.length)],
       });
     }
 
@@ -61,7 +62,7 @@ export default function CanvasBackground() {
         ctx.beginPath();
         ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
         ctx.fillStyle = p1.color;
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 6;
         ctx.shadowColor = p1.color;
         ctx.fill();
 
@@ -72,13 +73,13 @@ export default function CanvasBackground() {
           const dy = p1.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 130) {
+          if (dist < 120) {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            const alpha = (1 - dist / 130) * 0.15;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-            ctx.lineWidth = 0.75;
+            const alpha = (1 - dist / 120) * 0.12;
+            ctx.strokeStyle = `rgba(229, 9, 20, ${alpha})`;
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         }
@@ -88,13 +89,13 @@ export default function CanvasBackground() {
           const mdx = p1.x - mouse.x;
           const mdy = p1.y - mouse.y;
           const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mdist < 150) {
+          if (mdist < 140) {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(mouse.x, mouse.y);
-            const alpha = (1 - mdist / 150) * 0.25;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-            ctx.lineWidth = 1;
+            const alpha = (1 - mdist / 140) * 0.22;
+            ctx.strokeStyle = `rgba(229, 9, 20, ${alpha})`;
+            ctx.lineWidth = 0.8;
             ctx.stroke();
           }
         }
@@ -115,7 +116,7 @@ export default function CanvasBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-40"
+      className="fixed inset-0 pointer-events-none z-0 opacity-35"
     />
   );
 }
